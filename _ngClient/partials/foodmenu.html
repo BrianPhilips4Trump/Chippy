@@ -1,0 +1,149 @@
+<div class="row">
+<div class="col-md-10" >
+<h1>FoodItemOnMenu CRUD mongodb</h1>
+
+ 
+	<div class="row">
+		<div class="col-md-3">
+		  <button type="button" ng-click="loadFoodItemOnMenu()" ng-disabled="asynchWait" >Load FoodItemOnMenu</button>	   
+		</div>
+		<div class="col-md-3">
+		  <button type="button" ng-click="deleteFoodItemsOnMenu()" ng-disabled="asynchWait">Delete Food</button>	   
+		</div>				
+	</div>
+<hr> 
+
+  <form name="myForm">
+  
+  <div class="row">
+    <div class="col-md-3">
+		<label for="singleSelect">FoodF: </label><br>
+		<select name="singleSelect" ng-model="filterData.name">
+		
+		  <option value="">All</option>
+		  <option value="applied">applied</option>
+		  <option value="forensics">forensics</option>
+		  <option value="ssd">ssd</option>
+	   
+		</select>    
+	</div>
+    <div class="col-md-3">
+		<label for="singleSelect">Year: </label><br>
+		<select name="singleSelect" ng-model="filterData.price">
+		  <option value="">All</option>
+		  <option value="1">1</option>
+		  <option value="2">2</option>
+		  <option value="3">3</option>
+		  <option value="4">4</option>	  
+		</select>    
+	</div>  
+   
+  </div>
+ 
+  </form>
+  <br>
+
+   {{newFoodItemOnMenuRaw | json}} -- {{newFoodItemOnMenuRaw.json.length}}
+<hr>
+<p>
+ Record(s): {{FoodItemsOnMenu.length}} <p>
+ 
+ <hr>
+ 
+ <div class="row">
+ <div class="col-md-1">
+	#No
+ </div>
+  <div class="col-md-3">
+    Name
+ </div>
+  <div class="col-md-3">
+    Course
+ </div>
+  <div class="col-md-1">
+    Year
+ </div>
+
+</div> 
+  
+ <div id="showFoodItemsOnMenu" >
+ <div id="{{f._id}}" class="row" ng-repeat="f in FoodItemsOnMenu  | orderBy:['category','name', 'price'] track by f._id"
+ ng-include src="getTemplate(s)"
+ >
+ <!--
+ <div class="col-md-1">
+ {{$index+1}}
+ </div>
+  <div class="col-md-3"    >
+    {{s.name}}
+ </div>
+  <div class="col-md-3">
+    {{s.course}}
+ </div>
+  <div class="col-md-1">
+    {{s.year}}
+ </div>
+   <div class="col-md-1">
+     <button type="button" ng-click="deleteStudent($index,s._id)">X</button>	 
+ </div> 
+ -->
+</div>
+</div>
+ 
+</div> 
+</div> 
+  
+<div id="editFoodItemOnMenu" ng-show="editingFoodItemOnMenu">
+
+
+
+
+	<div class="container">
+ 
+    <div class="container">
+
+			<div class="row">
+				<div class="col-md-8">
+				   <h3>{{editTitle}}</h3>
+				</div>	
+			
+			</div>	
+		
+			<label ng-hide="editData.index==-1">#No
+				{{editData.index}}
+			</label>
+			<br>
+			<label>Name
+				<input type="text" ng-model="editData.name" class="form-control"/>
+			</label>
+			<br>
+			<label>Course
+				<input type="text" ng-model="editData.course" class="form-control"/>
+			</label>
+			<br>			
+			<label>Year
+				<input type="text" ng-model="editData.year" class="form-control"/>
+			</label>	
+	</div>
+	
+	
+ </div>
+ 
+	<div class="row">
+		<div class="col-md-8">
+		   
+		</div>	
+		<div class="col-md-2">
+		  <button type="button" ng-click="saveFoodItemOnMenu()" ng-disabled="asynchWait" >Save</button>	   
+		</div>
+		<div class="col-md-2">
+		  <button type="button" ng-click="cancelFoodItemOnMenuEdit()" ng-disabled="asynchWait">Cancel</button>	   
+		</div>		
+	</div> 
+</div>
+
+
+
+<div id="editFoodItemOnMenuLayer" ng-show="editingFoodItemOnMenu" >
+ <!-- to shield the other inputs during an edit -->
+</div>
