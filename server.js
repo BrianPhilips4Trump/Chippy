@@ -199,10 +199,13 @@ function getOrders(req, res, findOptions, cb) {
 	});
     } 
 
-app.delete('/api/v1/FoodItemOnMenu/:_id', function(req, res) {  
-    console.log('DELETE /api/v1/FoodItemOnMenu');
+app.delete('/api/v1/orderitem/:_id', function(req, res) {  
+    console.log('DELETE /api/v1/orderitem');
 	console.log(req.params._id);
-	myCollections.FoodItemsOnMenu.deleteOne({  _id  :  ObjectID(req.params._id)}  , function(err, result) {
+	myCollections.orders.deleteOne({  
+        _id  :  ObjectID(req.params._id)} , 
+                                   
+    function(err, result) {
     if(err)
 	{   // throw err;
 		console.log("error:");

@@ -30,8 +30,21 @@ appControllers.controller('HomeCtrl', ['$scope' ,
 
 appControllers.controller('AboutCtrl', [  '$scope', '$resource', '$http',  '$q', 'nrzLightify',
     function( $scope, $resource,  $http, $q, nrzLightify) {
+        
+        
       $scope.filterData = {};
         
+        
+        $scope.removeFromOrder = function(index,id,food)
+		{
+			correctIndex =   $scope.orders.indexOf(food);
+			$http.delete('/api/v1/orderitem/' + id).then(function success (response) {  	
+			                    $scope.orders.splice(correctIndex, 1);
+								nrzLightify({ type: 'success', text: 'basket item deleted'  }, 3000);	
+							}, function errorCallback(error) {
+                               	nrzLightify({ type: 'danger', text: 'basket  deletion error'  }, 3000);				 						 
+						}); 				
+		}
         $scope.payForOrder = function() // load many
 		{ // add test data
 		    $scope.asynchWait = true;		
