@@ -38,29 +38,18 @@ var db = MongoClient.connect(mDB, function(err, db) {
     if(err)
         throw err;
     console.log("connected to the mongoDB at: " + runtime.mongodb);
+    
 	
 	//myCollection = db.collection('FoodItemsOnMenu'); // creates the collection if it does not exist
 	myCollections.FoodItemsOnMenu = db.collection('FoodItemsOnMenu'); 
-    	myCollections.courses = db.collection('courses'); 
+    	myCollections.orders = db.collection('orders'); 
 
 	
 	myCollections.FoodItemsOnMenu = db.collection('FoodItemsOnMenu'); 
 	
 	// proof of concept only with courses, lets add some data, use robmongo do check it works.
 	
-	try { // there is no rest endpoints for this example on courses just run with no error checking
-		myCollections.courses.deleteMany( {}, function(err, result)
-		{
-		myCollections.courses.insert([{'a':'alpha'}, {'a':'beta'}], function(err, result) {
-            if (!err)
-				{
-					console.log("test data to courses inserted");
-				}
-			});	 
-		});
-	} catch (e) {
-			console.log(e);  
-	}	
+	
 });
  
 var connectionListener = false;
@@ -189,6 +178,27 @@ function getFoodItemsOnMenu(req, res, findOptions, cb) {
 	});
     } 
 
+
+
+function findOrders(findOptions, cb) {
+        myCollections.orders.find(findOptions).toArray(cb);
+    }
+ 
+function getOrders(req, res, findOptions, cb) {
+  	findOrders( findOptions,  function(err, results) {	 
+	if(err)
+		{	// throw err;
+			console.log("error:");
+			console.log(err.message);
+			res.status(404);
+			res.json({"error": err.message});
+		} 
+	// console.log(results);		 
+	res.status(200);
+	res.json(results);	
+	});
+    } 
+
 app.delete('/api/v1/FoodItemOnMenu/:_id', function(req, res) {  
     console.log('DELETE /api/v1/FoodItemOnMenu');
 	console.log(req.params._id);
@@ -226,6 +236,31 @@ app.put('/api/v1/FoodItemOnMenu', function(req, res) {
 	});		
 });	
 
+
+app.put('/api/v1/orderitem', function(req, res) {   
+    console.log('PUT /api/v1/orderitem');
+	console.log(req.body);
+    var _id = req.body._id;
+    delete req.body._id;
+    myCollections.orders.update({
+        "_id": ObjectID(_id)
+        
+    })
+	myCollections.orders.insert(req.body, function(err, result) {
+    if(err)
+	{   // throw err;
+		console.log("error:");
+		console.log(err.message);
+		res.status(404);
+		res.json({"error": err.message});		
+	}       
+    if(!err) 
+       console.log("FoodItemOnMenu entry saved");
+   	   res.status(200);
+	   res.json(result);	    
+	});		
+});
+
 app.post('/api/v1/FoodItemOnMenu', function(req, res) {   // update a FoodItemOnMenu
     console.log('POST /api/v1/FoodItemOnMenu');
 	console.log(req.body);	
@@ -245,7 +280,44 @@ app.post('/api/v1/FoodItemOnMenu', function(req, res) {   // update a FoodItemOn
 	   res.json(result);	    
 	});	
 });
+
+
+
+
+app.post('/api/v1/orders', function (req, res) { // need the post method to pass filters in the body
+
+    console.log('POST /api/v1/basket');
+
+    var findOptions = {};
+
+    // these checks could be normalised to a function
+    if (req.body.name) {
+        findOptions.name = {
+            $eq: req.body.name
+        };
+    }
+    if (req.body.price) {
+        findOptions.price = {
+            $eq: parseInt(req.body.price)
+        };
+    }
+     if (req.body.catagory) {
+        findOptions.catagory = {
+            $eq: req.body.catagory
+        };
+    }
+
+    console.log(findOptions)
+    getOrders(req, res, findOptions);
+});
 	
+app.get('/api/v1/orders', function(req, res) { // allows a browser url call 
+    console.log('GET /api/v1/orders');
+	 
+	var findOptions = {};
+	
+	getFoodItemsOnMenu(req,res,findOptions);
+});
 app.get('/api/v1/FoodItemsOnMenu', function(req, res) { // allows a browser url call 
     console.log('GET /api/v1/FoodItemsOnMenu');
 	 
@@ -271,6 +343,39 @@ app.post('/api/v1/FoodItemsOnMenu', function(req, res) { // need the post method
 	console.log(findOptions)
 	getFoodItemsOnMenu(req,res,findOptions);
 });
+
+
+
+app.post('/api/v1/loadOrders', function(req, res) { // API restful semantic issues i.e. loadFoodItemsOnMenu
+    console.log('POST /api/v1/loadOrders');
+    
+    var ordersz = [];
+		
+	 
+	var errorFlag = false;  // can use for feedback
+	var insertCount = 0;
+	
+	ordersz.forEach( function (arrayItem)
+	{
+		myCollections.orders.insert( arrayItem, function(err, result) {
+			if(err)
+			{
+				errorFlag = true;
+			}
+			insertCount++;
+		});
+	});	 
+	var result = {'errorFlag' : errorFlag , 'insertCount' : insertCount};
+	console.log(result)
+	res.status(200);
+	res.json(result); 
+});
+
+
+
+
+
+
 
 app.post('/api/v1/loadFoodItemsOnMenu', function(req, res) { // API restful semantic issues i.e. loadFoodItemsOnMenu
     console.log('POST /api/v1/loadFoodItemsOnMenu');
@@ -422,6 +527,27 @@ app.delete('/api/v1/deleteFoodItemsOnMenu', function(req, res) {
 			res.json({});			   
 	}	
 });
+
+
+app.delete('/api/v1/deleteorders', function(req, res) {  
+    console.log('DELETE /api/v1/loadFoodItemsOnMenu');
+	var errorFlag = false;  // can use for feedback
+	try {
+		myCollections.orders.deleteMany( {}, function(err, result)
+		{
+		  var resJSON = JSON.stringify(result);
+			console.log(resJSON);
+			console.log(result.result.n);
+			res.status(200);
+			res.json(resJSON);			
+		});
+	} catch (e) {
+			console.log(e);
+			res.status(404);
+			res.json({});			   
+	}	
+});
+
 
 // if all the server rest type route paths are mapped in index.js
 // app.use('/', require('./routes')); // will load/use index.js by default from this folder

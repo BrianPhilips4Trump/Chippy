@@ -18,7 +18,7 @@ console.log("angularnodeApp.config")	  // runs once only
  
 			$routeProvider.					
 					  when('/home', {
-						templateUrl: './partials/home.html',
+						templateUrl: './partials/foodmenu.html',
 						controller: 'HomeCtrl'
 					  }).												  
 					  when('/students', {

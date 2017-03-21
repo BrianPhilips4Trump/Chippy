@@ -60,6 +60,28 @@
          
          </div>	 
     </script>
+    
+     <script type="text/ng-template" id="displayOrders">
+ 
+		 <div class="col-md-1">
+		 {{$index+1}}
+		 </div>
+		  <div class="col-md-3"   >
+			{{f.category}}
+		 </div>
+		  <div class="col-md-3">
+			{{f.name}}
+		 </div>
+		  <div class="col-md-1">
+			{{f.price}}
+		 </div>
+		  
+		 	
+		  <div class="col-md-1">
+              <button type="button" class="btn btn-primary btn-xs" ng-click="removeFromBasket($index, f._id, f)">remove</button>
+         
+         </div>	 
+    </script>
  
    <div class="row">
          <!-- HEADER AND NAVBAR -->
