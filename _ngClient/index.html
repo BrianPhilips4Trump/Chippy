@@ -56,7 +56,29 @@
 		  
 		 	
 		  <div class="col-md-1">
-              <button type="button" class="btn btn-success" ng-click="add2Order($index, f._id, f)">Add To Order</button>
+              <button type="button" class="btn btn-success" ng-click="add2Order($index, f._id, f, f.category)">Add To Order</button>
+         
+         </div>	 
+    </script>
+    
+         <script type="text/ng-template" id="displayspecials">
+ 
+		 <div class="col-md-1">
+		 {{$index+1}}
+		 </div>
+		  <div class="col-md-2"   >
+			{{s.category}}
+		 </div>
+		  <div class="col-md-4">
+			{{s.name}}
+		 </div>
+		  <div class="col-md-2">
+			€ {{s.price}}
+		 </div>
+		  
+		 	
+		  <div class="col-md-1">
+              <button type="button" class="btn btn-success" ng-click="add2Order($index, s._id, s)">Add To Order</button>
          
          </div>	 
     </script>

@@ -42,6 +42,7 @@ var db = MongoClient.connect(mDB, function(err, db) {
 	
 	//myCollection = db.collection('FoodItemsOnMenu'); // creates the collection if it does not exist
 	myCollections.FoodItemsOnMenu = db.collection('FoodItemsOnMenu'); 
+    myCollections.specials = db.collection('specials'); 
     	myCollections.orders = db.collection('orders'); 
 
 	
@@ -347,7 +348,117 @@ app.post('/api/v1/FoodItemsOnMenu', function(req, res) { // need the post method
 	getFoodItemsOnMenu(req,res,findOptions);
 });
 
+//===============================================================================================================================
+//===============================Specials========================================================================================
+app.post('/api/v1/specials', function (req, res) { // need the post method to pass filters in the body
 
+    console.log('POST /api/v1/specials');
+
+    var findOptions = {};
+
+    // these checks could be normalised to a function
+    if (req.body.name) {
+        findOptions.name = {
+            $eq: req.body.name
+        };
+    }
+    if (req.body.price) {
+        findOptions.price = {
+            $eq: parseInt(req.body.price)
+        };
+    }
+     if (req.body.catagory) {
+        findOptions.catagory = {
+            $eq: req.body.catagory
+        };
+    }
+
+    console.log(findOptions)
+    getSpecials(req, res, findOptions);
+});
+
+
+function findSpecials(findOptions, cb) {
+        myCollections.specials.find(findOptions).toArray(cb);
+    }
+ 
+function getSpecials(req, res, findOptions, cb) {
+  	findSpecials( findOptions,  function(err, results) {	 
+	if(err)
+		{	// throw err;
+			console.log("error:");
+			console.log(err.message);
+			res.status(404);
+			res.json({"error": err.message});
+		} 
+	// console.log(results);		 
+	res.status(200);
+	res.json(results);	
+	});
+    } 
+
+app.post('/api/v1/loadspecials', function(req, res) { // API restful semantic issues i.e. loadFoodItemsOnMenu
+    console.log('POST /api/v1/loadspecials');
+    
+   var specials = [{
+            "catagory": "Burgers",
+            "name": "1/4 Pounder with Cheese and Chips ",
+            "price": 5
+		},
+        {
+             "catagory": "Chicken",
+            "name": "Chicken Fillet Burger and Chips ",
+            "price": 5
+		},
+        {
+            
+           "catagory": "Chicken",
+            "name": "Snack Box :- 2 Pieces of Chicken and Chips ",
+            "price": 5
+		},
+        {
+             "catagory": "Burgers",
+            "name": "Double Cheese Burger and Chips  ",
+            "price": 5
+		},
+        {
+             "catagory": "Fish",
+            "name": "Fish Box :- Plaice and Chips ",
+            "price": 6
+		},
+        {
+             "catagory": "Chicken",
+            "name": "6 Nuggets, 2 Plain Sausages and Chips ",
+            "price": 5
+		},
+         {
+            "catagory": "Burgers",
+            "name": "2 Chips / 2 Plain Burgers / 2 Plain Sausages / Six Nuggets ",
+            "price": 10
+		}];
+		
+	 
+	var errorFlag = false;  // can use for feedback
+	var insertCount = 0;
+	
+	specials.forEach( function (arrayItem)
+	{
+		myCollections.specials.insert( arrayItem, function(err, result) {
+			if(err)
+			{
+				errorFlag = true;
+			}
+			insertCount++;
+		});
+	});	 
+	var result = {'errorFlag' : errorFlag , 'insertCount' : insertCount};
+	console.log(result)
+	res.status(200);
+	res.json(result); 
+});
+
+	
+//========================================================================================
 
 app.post('/api/v1/loadOrders', function(req, res) { // API restful semantic issues i.e. loadFoodItemsOnMenu
     console.log('POST /api/v1/loadOrders');

@@ -58,6 +58,50 @@ appControllers.controller('AboutCtrl', [  '$scope', '$resource', '$http',  '$q',
                                nrzLightify({ type: 'danger', text: 'there was a problem with processsing the order'  }, 3000);						 						 
 						}); 			 
 		}
+        
+        
+//====================================================================================================================================
+        
+        
+        
+        
+          $scope.loadSpecials = function() // load many
+		{ // add test data
+		    $scope.asynchWait = true;
+			$http.post('/api/v1/loadspecials', {}).then(function success (response) {  	
+			                    // var result = {'errorFlag' : errorFlag , 'insertCount' : insertCount};
+								displaySpecials({});
+								$scope.asynchWait = false;
+								nrzLightify({ type: 'success', text: 'orders loaded'  }, 3000);
+							}, function errorCallback(error) {
+								$scope.asynchWait = false;
+                               nrzLightify({ type: 'danger', text: 'orders load error'  }, 3000);						 						 
+						}); 
+          
+          
+		}
+      
+      function getSpecials()
+      {
+          return $http.post('/api/v1/specials', $scope.filterData);
+      }
+      var aPromise;
+      
+      function displaySpecials(filters)
+      {
+          aPromise = getSpecials(filters);
+          aPromise.then(function(response)
+                       {
+              $scope.specials = response.data;
+              
+          },
+            function error(error) {
+              $scope.specials = [];
+              
+          } );
+      }
+        
+//====================================================================================================================================//====================================================================================================================================//==
       
       $scope.loadOrders = function() // load many
 		{ // add test data
@@ -96,6 +140,7 @@ appControllers.controller('AboutCtrl', [  '$scope', '$resource', '$http',  '$q',
       }
       
       displayOrders({});
+    displaySpecials({});
   
   }]); // AboutCtrl		
 	
@@ -135,7 +180,7 @@ appControllers.controller('FoodItemsOnMenuCtrol', [  '$scope', '$resource', '$ht
 						}); 				
 		}
         
-        $scope.add2Order = function(index,id,food)
+        $scope.add2Order = function(index,id,food, food.category)
 		{
             console.log(food);
                 $http.put('/api/v1/orderitem', food).then(function success (response) {  									
@@ -144,11 +189,52 @@ appControllers.controller('FoodItemsOnMenuCtrol', [  '$scope', '$resource', '$ht
 							}, function errorCallback(error) {
                                nrzLightify({ type: 'danger', text: 'basket item insertion error'  }, 3000);							 						 
 						}); 
+            displaySpecials({})
            
 		}
         
         
-       
+   
+       //====================================================================================================================================
+        
+        
+          $scope.loadSpecials = function() // load many
+		{ // add test data
+		    $scope.asynchWait = true;
+			$http.post('/api/v1/loadspecials', {}).then(function success (response) {  	
+			                    // var result = {'errorFlag' : errorFlag , 'insertCount' : insertCount};
+								displaySpecials({});
+								$scope.asynchWait = false;
+								nrzLightify({ type: 'success', text: 'orders loaded'  }, 3000);
+							}, function errorCallback(error) {
+								$scope.asynchWait = false;
+                               nrzLightify({ type: 'danger', text: 'orders load error'  }, 3000);						 						 
+						}); 
+          
+          
+		}
+      
+      function getSpecials()
+      {
+          return $http.post('/api/v1/specials', $scope.filterData);
+      }
+      var aPromise;
+      
+      function displaySpecials(filters)
+      {
+          aPromise = getSpecials(filters);
+          aPromise.then(function(response)
+                       {
+              $scope.specials = response.data;
+              
+          },
+            function error(error) {
+              $scope.specials = [];
+              
+          } );
+      }
+        
+//====================================================================================================================================//====================================================================================================================================//==
         
       $scope.loadOrders = function() // load many
 		{ // add test data

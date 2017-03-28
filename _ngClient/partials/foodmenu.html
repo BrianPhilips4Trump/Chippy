@@ -73,25 +73,72 @@
  <div id="{{f._id}}" class="row" ng-repeat="f in FoodItemsOnMenu  | orderBy:['category','name', 'price'] track by f._id"
  ng-include src="getTemplate(s)"
  >
- <!--
+
+</div>
+</div>
+    
+    
+    
+//====================================================================================================================================
+
+    			 
+
+    <h1>Your Specials</h1>
+     <button type="button" class="btn btn-primary btn-xs" ng-click="loadSpecials()">Load the Specials</button>
+    <p>
+ Basket Size: {{basket.length}}<p>
+ 
+ <hr>
+ 
+ <div class="row">
  <div class="col-md-1">
- {{$index+1}}
- </div>
-  <div class="col-md-3"    >
-    {{s.name}}
- </div>
-  <div class="col-md-3">
-    {{s.course}}
+	Item Number
  </div>
   <div class="col-md-1">
-    {{s.year}}
+    Category
  </div>
-   <div class="col-md-1">
-     <button type="button" ng-click="deleteStudent($index,s._id)">X</button>	 
- </div> 
- -->
+  <div class="col-md-3">
+    Name
+ </div>
+  <div class="col-md-1">
+    Price €
+ </div>
+
+</div> 
+
+ <div id="displayspecials" >
+ <div id="{{s._id}}" class="row" ng-repeat="s in specials  | orderBy:['category',' name', 'price'] track by s._id">
+ <div class="col-md-1">
+		 {{$index+1}}
+		 </div>
+		  <div class="col-md-1"   >
+			{{s.catagory}}
+		 </div>
+		  <div class="col-md-3">
+			{{s.name}}
+		 </div>
+		  <div class="col-md-1">
+			{{s.price}}
+		 </div>
+     
+     
+     
+       
+
+
+
+		  <div class="col-md-1">
+		 </div>
 </div>
 </div>
+ 
+    
+    
+    
+    
+    
+    
+//====================================================================================================================================
     <h1>Your Basket</h1>
     <p>
  Basket Size: {{basket.length}}<p>
