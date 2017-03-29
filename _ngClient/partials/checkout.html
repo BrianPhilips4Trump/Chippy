@@ -38,7 +38,7 @@
 			{{o.name}}
 		 </div>
 		  <div class="col-md-1">
-			{{o.price}}
+			{{o.price | currency}}
 		 </div>
      
      
@@ -58,6 +58,71 @@
 		 </div>
 </div>
 </div> 
+    
+    
+    
+    			 
+
+    <h1>Your Specials</h1>
+     <button type="button" class="btn btn-primary btn-xs" ng-click="loadSpecials()">Load the Specials</button>
+    <p>
+ Basket Size: {{basket.length}}<p>
+ 
+ <hr>
+ 
+ <div class="row">
+ <div class="col-md-1">
+	Item Number
+ </div>
+  <div class="col-md-1">
+    Category
+ </div>
+  <div class="col-md-3">
+    Name
+ </div>
+  <div class="col-md-1">
+    Price €
+ </div>
+
+</div> 
+
+   
+
+    
+    
+ <div id="displayspecials" >
+ <div id="{{s._id}}" class="row" ng-repeat="s in specials | orderBy:['day', 'category',' name', 'price'] track by s._id" >
+ <div class="col-md-1">
+		 {{$index+1}}
+		 </div>
+		  <div class="col-md-1"   >
+			{{s.category}}
+		 </div>
+		  <div class="col-md-3">
+			{{s.name}}
+		 </div>
+		  <div class="col-md-1">
+			{{s.price | currency}}
+		 </div>
+     
+     
+     
+       
+
+
+
+		  <div class="col-md-1">
+		 </div>
+</div>
+</div>
+ 
+    
+    
+    
+    
+    
+    
+//===================================================================================================================================
     </div>
     </div>
 </div>

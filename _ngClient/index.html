@@ -51,12 +51,12 @@
 			{{f.name}}
 		 </div>
 		  <div class="col-md-2">
-			€ {{f.price}}
+			€ {{f.price | currency}}
 		 </div>
 		  
 		 	
 		  <div class="col-md-1">
-              <button type="button" class="btn btn-success" ng-click="add2Order($index, f._id, f, f.category)">Add To Order</button>
+              <button type="button" class="btn btn-success" ng-click="add2Order($index, f._id, f)">Add To Order</button>
          
          </div>	 
     </script>

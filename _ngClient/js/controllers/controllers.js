@@ -180,7 +180,7 @@ appControllers.controller('FoodItemsOnMenuCtrol', [  '$scope', '$resource', '$ht
 						}); 				
 		}
         
-        $scope.add2Order = function(index,id,food, food.category)
+        $scope.add2Order = function(index,id,food)
 		{
             console.log(food);
                 $http.put('/api/v1/orderitem', food).then(function success (response) {  									
@@ -394,6 +394,7 @@ appControllers.controller('FoodItemsOnMenuCtrol', [  '$scope', '$resource', '$ht
 			$scope.editData._id = null;			
 		}
 		
+        displaySpecials({});
 		displayFoodItemsOnMenu({}); // load the FoodItemOnMenu at the start
 		nrzLightify({ type: 'success', text: 'FoodItemOnMenu loaded'  }, 6000);	
  

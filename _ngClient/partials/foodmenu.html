@@ -2,21 +2,7 @@
 <div class="col-md-10" >
 <h1>FoodItemOnMenu CRUD mongodb</h1>
 
-    <!--
  
-	<div class="row">
-       
-		<div class="col-md-3">
-		  <button type="button" ng-click="loadFoodItemOnMenu()" ng-disabled="asynchWait" >Load FoodItemOnMenu</button>	   
-		</div>
-        
-		<div class="col-md-3">
-		  <button type="button" ng-click="deleteFoodItemsOnMenu()" ng-disabled="asynchWait">Delete Food</button>	   
-		</div>				
-	</div>
-<hr> 
--->
-  <form name="myForm">
   
   <div class="row">
     <div class="col-md-3">
@@ -106,13 +92,16 @@
 
 </div> 
 
+    
+    
+    
  <div id="displayspecials" >
  <div id="{{s._id}}" class="row" ng-repeat="s in specials  | orderBy:['category',' name', 'price'] track by s._id">
  <div class="col-md-1">
 		 {{$index+1}}
 		 </div>
 		  <div class="col-md-1"   >
-			{{s.catagory}}
+			{{s.category}}
 		 </div>
 		  <div class="col-md-3">
 			{{s.name}}
@@ -181,7 +170,7 @@
        
 
 <div class="col-md-1">
-			 <button type="button" class="btn btn-primary btn-xs" ng-click="removeFromBasket($index,b._id,b)">Remove</button>
+			 <button type="button" class="btn btn-primary btn-xs" ng-click="removeFromBasket($index,b._id)">Remove</button>
     &nbsp;
 		 </div>	
 

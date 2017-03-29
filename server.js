@@ -305,9 +305,9 @@ app.post('/api/v1/orders', function (req, res) { // need the post method to pass
             $eq: parseInt(req.body.price)
         };
     }
-     if (req.body.catagory) {
-        findOptions.catagory = {
-            $eq: req.body.catagory
+     if (req.body.category) {
+        findOptions.category = {
+            $eq: req.body.category
         };
     }
 
@@ -367,9 +367,9 @@ app.post('/api/v1/specials', function (req, res) { // need the post method to pa
             $eq: parseInt(req.body.price)
         };
     }
-     if (req.body.catagory) {
-        findOptions.catagory = {
-            $eq: req.body.catagory
+     if (req.body.category) {
+        findOptions.category = {
+            $eq: req.body.category
         };
     }
 
@@ -401,38 +401,38 @@ app.post('/api/v1/loadspecials', function(req, res) { // API restful semantic is
     console.log('POST /api/v1/loadspecials');
     
    var specials = [{
-            "catagory": "Burgers",
+            "category": "Burgers",
             "name": "1/4 Pounder with Cheese and Chips ",
             "price": 5
 		},
         {
-             "catagory": "Chicken",
+             "category": "Chicken",
             "name": "Chicken Fillet Burger and Chips ",
             "price": 5
 		},
         {
             
-           "catagory": "Chicken",
+           "category": "Chicken",
             "name": "Snack Box :- 2 Pieces of Chicken and Chips ",
             "price": 5
 		},
         {
-             "catagory": "Burgers",
+             "category": "Burgers",
             "name": "Double Cheese Burger and Chips  ",
             "price": 5
 		},
         {
-             "catagory": "Fish",
+             "category": "Fish",
             "name": "Fish Box :- Plaice and Chips ",
             "price": 6
 		},
         {
-             "catagory": "Chicken",
+             "category": "Chicken",
             "name": "6 Nuggets, 2 Plain Sausages and Chips ",
             "price": 5
 		},
          {
-            "catagory": "Burgers",
+            "category": "Burgers",
             "name": "2 Chips / 2 Plain Burgers / 2 Plain Sausages / Six Nuggets ",
             "price": 10
 		}];
